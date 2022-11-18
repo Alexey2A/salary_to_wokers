@@ -18,6 +18,8 @@ import javafx.stage.Stage;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Scanner;
@@ -78,6 +80,7 @@ public class SalaryWindow extends Application {
             Label label4 = new Label(Double.toString(totalSalaryOfWorker));
             balanceForLabel += totalSalaryOfWorker;
             TextField zpNow = new TextField();
+            zpNow.setOnAction(dragEvent -> System.out.println("Hello"));
             Button button = new Button("Рассчитать");
             label1.setMinWidth(130);
             label2.setMinWidth(130);
@@ -105,6 +108,9 @@ public class SalaryWindow extends Application {
             panel.getChildren().add(button2);
             sourcesContainer.getChildren().add(panel);
         }
+        BigDecimal salaryTotalBigDecimal = new BigDecimal(salaryTotal);
+        salaryTotalBigDecimal = salaryTotalBigDecimal.setScale(2, RoundingMode.HALF_EVEN);
+        salaryTotal = salaryTotalBigDecimal.doubleValue();
         sP.setContent(sourcesContainer);
 
         salaryTotalLabel = (Label) root.lookup("#salaryTotal");
@@ -114,6 +120,9 @@ public class SalaryWindow extends Application {
 //        TODO
         double d = Double.parseDouble(salaryTotalLabel.getText());
         balanceForLabel = d - balanceForLabel;
+        BigDecimal balanceForLabelBigDecimal = new BigDecimal(balanceForLabel);
+        balanceForLabelBigDecimal = balanceForLabelBigDecimal.setScale(2, RoundingMode.HALF_EVEN);
+        balanceForLabel = balanceForLabelBigDecimal.doubleValue();
         balance.setText(Double.toString(balanceForLabel));
         
 
